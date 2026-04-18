@@ -1,8 +1,52 @@
 import { motion } from "motion/react";
 import { ArrowRight, Zap, Users, Smartphone, TrendingUp, CheckCircle, Star } from "lucide-react";
 import { Link } from "react-router";
+import { useState } from "react";
 
 export function HomePage() {
+
+  const [formData, setFormData] = useState({
+  name: "",
+  email: "",
+  service: "",
+  message: "",
+});
+
+const handleChange = (e) => {
+  setFormData({
+    ...formData,
+    [e.target.name]: e.target.value,
+  });
+};
+
+const createWhatsAppLink = (message) => {
+  const phone = "447877406516";
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+};
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  const phoneNumber = "447877406516";
+
+  const text = `
+New Website Inquiry 🚀
+
+Service: ${formData.service}
+Name: ${formData.name}
+Email: ${formData.email}
+
+Project Details:
+${formData.message}
+  `;
+
+  const encodedText = encodeURIComponent(text);
+
+  const url = `https://wa.me/${phoneNumber}?text=${encodedText}`;
+
+  window.open(url, "_blank");
+};
+
   const services = [
   {
     title: "Shopify Website Design",
@@ -166,14 +210,13 @@ const portfolio = [
                 Get a Free Quote
                 <ArrowRight className="w-5 h-5" />
               </motion.a>
-              <motion.a
-                href="https://wa.me/447877406516"
-                className="px-8 py-4 bg-white text-gray-900 rounded-full font-semibold text-lg border-2 border-gray-200 inline-flex items-center justify-center gap-2 hover:border-gray-300 transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Chat on WhatsApp
-              </motion.a>
+             <motion.a
+  href={createWhatsAppLink("Hi, I'm interested in getting a website for my business. Can we discuss?")}
+  target="_blank"
+  className="px-8 py-4 bg-white text-gray-900 rounded-full font-semibold text-lg border-2 border-gray-200 inline-flex items-center justify-center gap-2 hover:border-gray-300 transition-colors"
+>
+  Chat on WhatsApp
+</motion.a>
             </motion.div>
           </motion.div>
 
@@ -410,13 +453,12 @@ const portfolio = [
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <motion.a
-                href="https://wa.me/447877406516"
-                className="px-8 py-4 bg-white text-blue-600 rounded-full font-semibold text-lg inline-flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                WhatsApp Contact
-              </motion.a>
+  href={createWhatsAppLink("Hi, I’d like a free quote for a website project.")}
+  target="_blank"
+  className="px-8 py-4 bg-white text-blue-600 rounded-full font-semibold text-lg inline-flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors"
+>
+  WhatsApp Contact
+</motion.a>
               <motion.a
                 href="#quote-form"
                 className="px-8 py-4 bg-transparent text-white rounded-full font-semibold text-lg border-2 border-white inline-flex items-center justify-center gap-2 hover:bg-white/10 transition-colors"
@@ -436,31 +478,45 @@ const portfolio = [
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <input
                     type="text"
+                    name="name"
                     placeholder="Your Name"
                     className="px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:border-white/40"
+                    value={formData.name}
+                    onChange={handleChange}
                   />
                   <input
                     type="email"
+                    name="email"
                     placeholder="Your Email"
                     className="px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:border-white/40"
+                    value={formData.email}
+                    onChange={handleChange}
                   />
                 </div>
-                <select className="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-white/40">
+                <select
+                  name="service"
+                  className="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-white/40"
+                  value={formData.service}
+                  onChange={handleChange}
+                >
                   <option value="" className="text-gray-900">Select Service</option>
                   <option value="shopify" className="text-gray-900">Shopify Design</option>
                   <option value="wix" className="text-gray-900">Wix Design</option>
                   <option value="squarespace" className="text-gray-900">Squarespace Design</option>
                   <option value="bubble" className="text-gray-900">Bubble Web App</option>
                 </select>
-                <textarea
-                  placeholder="Tell us about your project"
-                  rows={4}
-                  className="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:border-white/40 resize-none"
-                ></textarea>
+               <textarea
+  name="message"
+  placeholder="Tell us about your project"
+  rows={4}
+  className="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:border-white/40 resize-none"
+  value={formData.message}
+  onChange={handleChange}
+></textarea>
                 <motion.button
                   type="submit"
                   className="w-full px-8 py-4 bg-white text-blue-600 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors"

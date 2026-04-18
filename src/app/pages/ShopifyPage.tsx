@@ -2,6 +2,12 @@ import { motion } from "motion/react";
 import { ShoppingCart, TrendingUp, CreditCard, Package, BarChart, Smartphone, ArrowRight, CheckCircle } from "lucide-react";
 
 export function ShopifyPage() {
+
+  const createWhatsAppLink = (message: string) => {
+  const phone = "447877406516";
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+};
+
   const features = [
     {
       icon: <ShoppingCart className="w-6 h-6" />,
@@ -38,7 +44,7 @@ export function ShopifyPage() {
   const pricing = [
     {
       name: "Starter Store",
-      price: "$499",
+      price: "$99",
       description: "Perfect for new businesses launching their first store",
       features: [
         "Up to 25 products",
@@ -51,7 +57,7 @@ export function ShopifyPage() {
     },
     {
       name: "Professional Store",
-      price: "$1,499",
+      price: "$299",
       description: "Ideal for growing businesses ready to scale",
       features: [
         "Unlimited products",
@@ -66,7 +72,7 @@ export function ShopifyPage() {
     },
     {
       name: "Enterprise Store",
-      price: "$3,499",
+      price: "$999",
       description: "For established brands needing premium features",
       features: [
         "Everything in Professional",
@@ -81,23 +87,43 @@ export function ShopifyPage() {
   ];
 
   const portfolio = [
-    {
-      title: "Fashion Boutique",
-      image: "https://images.unsplash.com/photo-1646193186175-4ec30e6e5882?w=800&h=600&fit=crop",
-      result: "+127% Sales",
-    },
-    {
-      title: "Luxury Accessories",
-      image: "https://images.unsplash.com/photo-1757301714935-c8127a21abc6?w=800&h=600&fit=crop",
-      result: "+215% Revenue",
-    },
-    {
-      title: "Home Decor Store",
-      image: "https://images.unsplash.com/photo-1674027392887-751d6396b710?w=800&h=600&fit=crop",
-      result: "+89% Conversion",
-    },
-  ];
-
+  {
+    title: "Bowland Sleek",
+    image: "https://media.istockphoto.com/id/1223414833/photo/clean-saucepan-on-a-gas-stove-in-kitchen.jpg?s=612x612&w=0&k=20&c=U1L33o9BH9qXtfexlWleX0Y5qGy4es0ySk1Drgq_oxk=",
+    result: "Premium Fashion Store",
+    url: "https://www.bowlandsleek.com",
+  },
+  {
+    title: "Shop Esmeralda",
+    image: "https://shopesmeralda.com/cdn/shop/files/Crystal_Bloom.png?v=1764842849&width=533",
+    result: "Jewelry Store",
+    url: "https://shopesmeralda.com",
+  },
+  {
+    title: "Lula Boutique",
+    image: "https://media.istockphoto.com/id/653003428/photo/fashionable-clothes-in-a-boutique-store-in-london.jpg?s=612x612&w=0&k=20&c=UafU4a4xSbepJow4kvNu0q-LD4hFUoli7q3fvwkp79s=",
+    result: "Boutique Store",
+    url: "https://www.shoplulaboutique.com",
+  },
+  {
+    title: "Bambu Jutes",
+    image: "https://media.istockphoto.com/id/1269322182/photo/kitchenware-made-from-dried-betel-nut-leaf-palm.jpg?s=612x612&w=0&k=20&c=iSOHM0yPR7IaiAZ3tNIUNS0uDb2v8wAo-0yRDF_DA0w=",
+    result: "Eco E-commerce",
+    url: "https://bambujutes.com",
+  },
+  {
+    title: "Alberenz",
+    image: "https://media.istockphoto.com/id/2251015222/photo/contemporary-office-desk-setup-with-multiple-screens-and-documents.jpg?s=612x612&w=0&k=20&c=5A2UdtY891ELzQSfhWAXBmm5maGHPJjzpG0iL7-xTeg=",
+    result: "Computer Accessories Store",
+    url: "https://alberenz.com",
+  },
+  {
+    title: "Polar Hugs",
+    image: "https://media.istockphoto.com/id/1158244924/photo/beautiful-woman-hiding-face-in-woolen-scarf.jpg?s=612x612&w=0&k=20&c=5MK1qJIbrIwFGrXJEpv2XioPxahkQj9n4YZFq80Ibeo=",
+    result: "Outdoor Essentials Store",
+    url: "https://polarhugs.com",
+  },
+];
   return (
     <div className="pt-20">
       {/* Hero Section */}
@@ -120,8 +146,11 @@ export function ShopifyPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <motion.a
-                  href="https://wa.me/447877406516"
-                  className="px-8 py-4 bg-purple-600 text-white rounded-full font-semibold text-lg inline-flex items-center justify-center gap-2 hover:bg-purple-700 transition-colors"
+href={createWhatsAppLink(
+  "Hi, I want to start a Shopify store. Can we discuss my project?"
+)}
+target="_blank"
+className="px-8 py-4 bg-purple-600 text-white rounded-full font-semibold text-lg inline-flex items-center justify-center gap-2 hover:bg-purple-700 transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -146,7 +175,7 @@ export function ShopifyPage() {
               transition={{ duration: 0.8, delay: 0.3 }}
             >
               <img
-                src="https://images.unsplash.com/photo-1539278383962-a7774385fa02?w=1200&h=900&fit=crop"
+                src="https://cdn.dribbble.com/userupload/12668306/file/original-cc40fb8a3eb75e57e13675bc79c7f5fd.png?resize=1504x1128&vertical=center"
                 alt="Shopify store design"
                 className="rounded-3xl shadow-2xl"
               />
@@ -216,14 +245,8 @@ export function ShopifyPage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {portfolio.map((project, index) => (
-              <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group"
-              >
+  <a href={project.url} target="_blank" rel="noopener noreferrer">
+    <motion.div key={project.title}>
                 <motion.div
                   className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow"
                   whileHover={{ y: -8 }}
@@ -245,6 +268,7 @@ export function ShopifyPage() {
                   </div>
                 </motion.div>
               </motion.div>
+  </a>
             ))}
           </div>
         </div>
@@ -307,7 +331,10 @@ export function ShopifyPage() {
                   ))}
                 </ul>
                 <motion.a
-                  href="https://wa.me/447877406516"
+                  href={createWhatsAppLink(
+  `Hi, I'm interested in the ${plan.name}. Can you help me get started?`
+)}
+target="_blank"
                   className={`block w-full px-6 py-3 rounded-full font-semibold text-center transition-colors ${
                     plan.popular
                       ? "bg-white text-purple-600 hover:bg-gray-100"
@@ -340,7 +367,10 @@ export function ShopifyPage() {
               Get started today and watch your sales grow
             </p>
             <motion.a
-              href="https://wa.me/447877406516"
+             href={createWhatsAppLink(
+  "Hi, I’d like help launching my Shopify store. Let’s get started."
+)}
+target="_blank"
               className="inline-flex items-center gap-2 px-8 py-4 bg-white text-purple-600 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

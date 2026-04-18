@@ -1,11 +1,20 @@
 import { Link, useLocation } from "react-router";
 import { motion } from "motion/react";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function Header() {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+useEffect(() => {
+  if (location.hash === "#contact") {
+    const el = document.getElementById("contact");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+}, [location]);
 
   const navigation = [
     { name: "Home", href: "/" },
@@ -21,9 +30,9 @@ export function Header() {
         <div className="flex items-center justify-between h-20">
           <Link to="/" className="flex items-center">
   <motion.img
-  src="https://www.image2url.com/r2/default/images/1776514138012-28dbef6d-8f6c-46f9-91c1-568ea5d71074.jpeg"
+  src="https://www.image2url.com/r2/default/files/1776553011830-12dc8b20-b8e2-4741-993f-14bd3c86cd2f.jpeg"
   alt="Mustapha Studio Logo"
-  className="h-20 md:h-10 w-auto object-contain"
+  className="h-25 md:h-10 w-auto object-contain"
 />
           </Link>
 
@@ -42,14 +51,12 @@ export function Header() {
                 {item.name}
               </Link>
             ))}
-            <motion.a
-              href="#contact"
-              className="px-6 py-2.5 bg-blue-600 text-white rounded-full text-sm font-medium"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Get a Quote
-            </motion.a>
+            <Link
+  to="/#contact"
+  className="px-6 py-2.5 bg-blue-600 text-white rounded-full text-sm font-medium"
+>
+  Get a Quote
+</Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -82,13 +89,13 @@ export function Header() {
                 {item.name}
               </Link>
             ))}
-            <a
-              href="#contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block mx-4 mt-4 px-6 py-2.5 bg-blue-600 text-white rounded-full text-sm font-medium text-center"
-            >
-              Get a Quote
-            </a>
+  <Link
+  to="/#contact"
+  onClick={() => setMobileMenuOpen(false)}
+  className="block mx-4 mt-4 px-6 py-2.5 bg-blue-600 text-white rounded-full text-sm font-medium text-center"
+>
+  Get a Quote
+</Link>
           </motion.div>
         )}
       </nav>
