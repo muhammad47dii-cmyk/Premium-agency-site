@@ -20,12 +20,11 @@ export function Header() {
       <nav className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <Link to="/" className="flex items-center">
-            <motion.span
-              className="font-bold text-2xl text-gray-900"
-              whileHover={{ scale: 1.05 }}
-            >
-              Mustapha Studio
-            </motion.span>
+  <motion.img
+  src="https://www.image2url.com/r2/default/images/1776514138012-28dbef6d-8f6c-46f9-91c1-568ea5d71074.jpeg"
+  alt="Mustapha Studio Logo"
+  className="h-20 md:h-10 w-auto object-contain"
+/>
           </Link>
 
           {/* Desktop Navigation */}
