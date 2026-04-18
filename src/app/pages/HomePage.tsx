@@ -4,70 +4,76 @@ import { Link } from "react-router";
 
 export function HomePage() {
   const services = [
-    {
-      title: "Shopify Website Design",
-      description: "High-converting Shopify stores that turn visitors into customers with optimized product pages and seamless checkout flows.",
-      icon: "🛍️",
-      href: "/shopify",
-    },
-    {
-      title: "Wix Website Design",
-      description: "Modern business websites for coaches, service providers, and small businesses focused on lead generation.",
-      icon: "🎨",
-      href: "/wix",
-    },
-    {
-      title: "Squarespace Website Design",
-      description: "Premium, elegant websites for creatives and brands with portfolio-focused layouts that showcase your work.",
-      icon: "✨",
-      href: "/squarespace",
-    },
-    {
-      title: "Bubble Web App Development",
-      description: "No-code web applications and MVPs for startups with dashboard-style interfaces and custom workflows.",
-      icon: "⚡",
-      href: "/bubble",
-    },
-  ];
+  {
+    title: "Shopify Website Design",
+    description: "High-converting Shopify stores...",
+    icon: "https://cdn.worldvectorlogo.com/logos/shopify.svg",
+    href: "/shopify",
+  },
+  {
+    title: "Wix Website Design",
+    description: "Modern business websites...",
+    icon: "https://cdn.worldvectorlogo.com/logos/wix.svg",
+    href: "/wix",
+  },
+  {
+    title: "Squarespace Website Design",
+    description: "Premium, elegant websites...",
+    icon: "https://cdn.worldvectorlogo.com/logos/squarespace.svg",
+    href: "/squarespace",
+  },
+  {
+    title: "Bubble Web App Development",
+    description: "No-code web applications...",
+    icon: "data:image/png;base64,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",
+    href: "/bubble",
+  },
+];
 
-  const portfolio = [
-    {
-      title: "Fashion E-commerce Store",
-      category: "Shopify",
-      image: "https://images.unsplash.com/photo-1539278383962-a7774385fa02?w=800&h=600&fit=crop",
-      stats: "+127% Sales",
-    },
-    {
-      title: "Creative Agency Portfolio",
-      category: "Squarespace",
-      image: "https://images.unsplash.com/photo-1487338875411-8880f74114a2?w=800&h=600&fit=crop",
-      stats: "50+ Leads/mo",
-    },
-    {
-      title: "Coaching Business Site",
-      category: "Wix",
-      image: "https://images.unsplash.com/photo-1594892185343-0241e1d47d15?w=800&h=600&fit=crop",
-      stats: "+89% Conversion",
-    },
-    {
-      title: "SaaS Dashboard App",
-      category: "Bubble",
-      image: "https://images.unsplash.com/photo-1675495666895-9091741bfd78?w=800&h=600&fit=crop",
-      stats: "MVP in 2 weeks",
-    },
-    {
-      title: "Luxury Product Store",
-      category: "Shopify",
-      image: "https://images.unsplash.com/photo-1646193186175-4ec30e6e5882?w=800&h=600&fit=crop",
-      stats: "+215% Revenue",
-    },
-    {
-      title: "Design Studio Site",
-      category: "Squarespace",
-      image: "https://images.unsplash.com/photo-1491252027976-a03f31b9df00?w=800&h=600&fit=crop",
-      stats: "Award Winning",
-    },
-  ];
+const portfolio = [
+  {
+    title: "Bambu Jutes Store",
+    category: "Shopify",
+    image: "https://images.unsplash.com/photo-1539278383962-a7774385fa02?w=800&h=600&fit=crop",
+    stats: "E-commerce",
+    url: "https://bambujutes.com",
+  },
+  {
+    title: "Brevis Consulting",
+    category: "Squarespace",
+    image: "https://images.unsplash.com/photo-1487338875411-8880f74114a2?w=800&h=600&fit=crop",
+    stats: "Business Site",
+    url: "https://brevisconsulting.com",
+  },
+  {
+    title: "ALW Studios",
+    category: "Squarespace",
+    image: "https://images.unsplash.com/photo-1491252027976-a03f31b9df00?w=800&h=600&fit=crop",
+    stats: "Creative Studio",
+    url: "https://alwstudios.com",
+  },
+  {
+    title: "Renee’s Tree Service",
+    category: "Wix",
+    image: "https://images.unsplash.com/photo-1594892185343-0241e1d47d15?w=800&h=600&fit=crop",
+    stats: "Local Business",
+    url: "https://reneestreeservicellc.com",
+  },
+  {
+    title: "MakerMatch App",
+    category: "Bubble",
+    image: "https://plus.unsplash.com/premium_photo-1718999209486-8e6a4e03ebc4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fG9ubGluZSUyMGRhdGluZyUyMHdlYnNpdGV8ZW58MHx8MHx8fDA%3D",
+    stats: "Web App",
+    url: "https://www.makermatch.ai",
+  },
+  {
+    title: "Mesh Marketplace",
+    category: "Bubble",
+    image: "https://images.unsplash.com/photo-1688561808434-886a6dd97b8c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8b25saW5lJTIwc3RvcmV8ZW58MHx8MHx8fDA%3D",
+    stats: "Marketplace",
+    url: "https://www.mesh.trade/services/mesh-marketplace/",
+  },
+];
 
   const testimonials = [
     {
@@ -218,7 +224,13 @@ export function HomePage() {
                     className="p-8 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-100 hover:border-blue-200 transition-all h-full"
                     whileHover={{ y: -8, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}
                   >
-                    <div className="text-5xl mb-4">{service.icon}</div>
+                   <div className="mb-4">
+  <img
+    src={service.icon}
+    alt={service.title}
+    className="w-12 h-12 object-contain"
+  />
+</div>
                     <h3 className="text-2xl font-bold text-gray-900 mb-3">
                       {service.title}
                     </h3>
@@ -254,15 +266,16 @@ export function HomePage() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {portfolio.map((project, index) => (
-              <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group cursor-pointer"
-              >
+           {portfolio.map((project, index) => (
+  <a href={project.url} target="_blank" rel="noopener noreferrer">
+    <motion.div
+      key={project.title}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      className="group cursor-pointer"
+    >
                 <motion.div
                   className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow"
                   whileHover={{ y: -8 }}
@@ -287,6 +300,7 @@ export function HomePage() {
                   </div>
                 </motion.div>
               </motion.div>
+              </a>
             ))}
           </div>
         </div>
