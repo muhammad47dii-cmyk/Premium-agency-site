@@ -35,7 +35,6 @@ export function RootLayout() {
         <Outlet />
       </main>
       <Footer />
-      <WhatsAppButton />
     </div>
   );
 }
