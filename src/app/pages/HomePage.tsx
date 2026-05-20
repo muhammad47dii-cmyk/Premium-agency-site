@@ -1,527 +1,522 @@
-import { motion } from "motion/react";
-import { ArrowRight, Zap, Users, Smartphone, TrendingUp, CheckCircle, Star } from "lucide-react";
+import { ChangeEvent, FormEvent, ReactNode, useState } from "react";
 import { Link } from "react-router";
-import { useState } from "react";
+import { motion } from "motion/react";
+import {
+  ArrowRight,
+  BarChart3,
+  CheckCircle,
+  ExternalLink,
+  Layers,
+  ShieldCheck,
+  Smartphone,
+  Sparkles,
+  Star,
+  Store,
+  Users,
+  Zap,
+} from "lucide-react";
+import { ContactActions, createEmailLink, createWhatsAppLink } from "../components/ContactActions";
+import { HeroExperience } from "../components/HeroExperience";
+
+type FormState = {
+  name: string;
+  email: string;
+  service: string;
+  message: string;
+};
+
+function FadeIn({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 72, scale: 0.94, rotateX: 14, filter: "blur(14px)" }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0, filter: "blur(0px)" }}
+      viewport={{ once: false, margin: "-90px" }}
+      transition={{ duration: 0.9, delay, type: "spring", stiffness: 90, damping: 18 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export function HomePage() {
-
-  const [formData, setFormData] = useState({
-  name: "",
-  email: "",
-  service: "",
-  message: "",
-});
-
-const handleChange = (e) => {
-  setFormData({
-    ...formData,
-    [e.target.name]: e.target.value,
+  const [formData, setFormData] = useState<FormState>({
+    name: "",
+    email: "",
+    service: "",
+    message: "",
   });
-};
 
-const createWhatsAppLink = (message) => {
-  const phone = "447877406516";
-  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-};
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const phoneNumber = "447877406516";
+    const text = `New Website Inquiry
 
-  const text = `
-New Website Inquiry 🚀
-
-Service: ${formData.service}
+Service: ${formData.service || "Not selected"}
 Name: ${formData.name}
 Email: ${formData.email}
 
 Project Details:
-${formData.message}
-  `;
+${formData.message}`;
 
-  const encodedText = encodeURIComponent(text);
+    window.open(createWhatsAppLink(text), "_blank", "noopener,noreferrer");
+  };
 
-  const url = `https://wa.me/${phoneNumber}?text=${encodedText}`;
+  const formMessage = `New Website Inquiry
 
-  window.open(url, "_blank");
-};
+Service: ${formData.service || "Not selected"}
+Name: ${formData.name}
+Email: ${formData.email}
+
+Project Details:
+${formData.message}`;
 
   const services = [
-  {
-    title: "Shopify Website Design",
-    description: "High-converting Shopify stores...",
-    icon: "https://cdn.worldvectorlogo.com/logos/shopify.svg",
-    href: "/shopify",
-  },
-  {
-    title: "Wix Website Design",
-    description: "Modern business websites...",
-    icon: "https://cdn.worldvectorlogo.com/logos/wix.svg",
-    href: "/wix",
-  },
-  {
-    title: "Squarespace Website Design",
-    description: "Premium, elegant websites...",
-    icon: "https://cdn.worldvectorlogo.com/logos/squarespace.svg",
-    href: "/squarespace",
-  },
-  {
-    title: "Bubble Web App Development",
-    description: "No-code web applications...",
-    icon: "data:image/png;base64,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",
-    href: "/bubble",
-  },
-];
+    {
+      title: "Shopify Stores",
+      description: "Ecommerce experiences with stronger product pages, checkout flow, and mobile shopping.",
+      icon: <Store className="h-6 w-6" />,
+      href: "/shopify",
+      tone: "bg-emerald-50 text-emerald-700 border-emerald-100",
+    },
+    {
+      title: "Wix Websites",
+      description: "Lead-focused business websites for coaches, consultants, service providers, and local teams.",
+      icon: <Users className="h-6 w-6" />,
+      href: "/wix",
+      tone: "bg-cyan-50 text-cyan-700 border-cyan-100",
+    },
+    {
+      title: "Squarespace Design",
+      description: "Premium websites for brands, portfolios, and service businesses that need polish.",
+      icon: <Sparkles className="h-6 w-6" />,
+      href: "/squarespace",
+      tone: "bg-amber-50 text-amber-700 border-amber-100",
+    },
+    {
+      title: "Bubble Web Apps",
+      description: "MVPs, dashboards, marketplaces, and internal tools built faster with no-code.",
+      icon: <Layers className="h-6 w-6" />,
+      href: "/bubble",
+      tone: "bg-indigo-50 text-indigo-700 border-indigo-100",
+    },
+  ];
 
-const portfolio = [
-  {
-    title: "Bambu Jutes Store",
-    category: "Shopify",
-    image: "https://media.istockphoto.com/id/1269322182/photo/kitchenware-made-from-dried-betel-nut-leaf-palm.jpg?s=612x612&w=0&k=20&c=iSOHM0yPR7IaiAZ3tNIUNS0uDb2v8wAo-0yRDF_DA0w=",
-    stats: "E-commerce",
-    url: "https://bambujutes.com",
-  },
-  {
-    title: "Brevis Consulting",
-    category: "Squarespace",
-    image: "https://media.istockphoto.com/id/1407200735/photo/business-people-working-in-a-board-room-with-a-laptop-and-digital-tablet.jpg?s=612x612&w=0&k=20&c=pGmgkLlJOFb9uYXGY_2tEegfKF_B7XNep-lCEbmxeX8=",
-    stats: "Business Site",
-    url: "https://brevisconsulting.com",
-  },
-  {
-    title: "ALW Studios",
-    category: "Squarespace",
-    image: "https://media.istockphoto.com/id/1304287268/photo/studio-of-successful-artist.jpg?s=612x612&w=0&k=20&c=o1xN605yJnQxs7bzR2GwHhuqbLn_ph2oWDtV5oAMO5w=",
-    stats: "Creative Studio",
-    url: "https://alwstudios.com",
-  },
-  {
-    title: "Renee’s Tree Service",
-    category: "Wix",
-    image: "https://media.istockphoto.com/id/478261537/photo/arborist-tree-pruning-service-working-on-high-branches.jpg?s=612x612&w=0&k=20&c=W89b8x269Sxpz_Pa6Yi9m5LCNYFKAmz6YaeE8v3Py9Y=",
-    stats: "Local Business",
-    url: "https://reneestreeservicellc.com",
-  },
-  {
-    title: "MakerMatch App",
-    category: "Bubble",
-    image: "https://plus.unsplash.com/premium_photo-1718999209486-8e6a4e03ebc4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fG9ubGluZSUyMGRhdGluZyUyMHdlYnNpdGV8ZW58MHx8MHx8fDA%3D",
-    stats: "Web App",
-    url: "https://www.makermatch.ai",
-  },
-  {
-    title: "Mesh Marketplace",
-    category: "Bubble",
-    image: "https://images.unsplash.com/photo-1688561808434-886a6dd97b8c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8b25saW5lJTIwc3RvcmV8ZW58MHx8MHx8fDA%3D",
-    stats: "Marketplace",
-    url: "https://www.mesh.trade/services/mesh-marketplace/",
-  },
-];
+  const portfolio = [
+    {
+      title: "Bambu Jutes Store",
+      category: "Shopify",
+      image: "https://media.istockphoto.com/id/1269322182/photo/kitchenware-made-from-dried-betel-nut-leaf-palm.jpg?s=612x612&w=0&k=20&c=iSOHM0yPR7IaiAZ3tNIUNS0uDb2v8wAo-0yRDF_DA0w=",
+      url: "https://bambujutes.com",
+    },
+    {
+      title: "Brevis Consulting",
+      category: "Squarespace",
+      image: "https://media.istockphoto.com/id/1407200735/photo/business-people-working-in-a-board-room-with-a-laptop-and-digital-tablet.jpg?s=612x612&w=0&k=20&c=pGmgkLlJOFb9uYXGY_2tEegfKF_B7XNep-lCEbmxeX8=",
+      url: "https://brevisconsulting.com",
+    },
+    {
+      title: "ALW Studios",
+      category: "Squarespace",
+      image: "https://media.istockphoto.com/id/1304287268/photo/studio-of-successful-artist.jpg?s=612x612&w=0&k=20&c=o1xN605yJnQxs7bzR2GwHhuqbLn_ph2oWDtV5oAMO5w=",
+      url: "https://alwstudios.com",
+    },
+    {
+      title: "Renee's Tree Service",
+      category: "Wix",
+      image: "https://media.istockphoto.com/id/478261537/photo/arborist-tree-pruning-service-working-on-high-branches.jpg?s=612x612&w=0&k=20&c=W89b8x269Sxpz_Pa6Yi9m5LCNYFKAmz6YaeE8v3Py9Y=",
+      url: "https://reneestreeservicellc.com",
+    },
+    {
+      title: "MakerMatch App",
+      category: "Bubble",
+      image: "https://plus.unsplash.com/premium_photo-1718999209486-8e6a4e03ebc4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fG9ubGluZSUyMGRhdGluZyUyMHdlYnNpdGV8ZW58MHx8MHx8fDA%3D",
+      url: "https://www.makermatch.ai",
+    },
+    {
+      title: "Mesh Marketplace",
+      category: "Bubble",
+      image: "https://images.unsplash.com/photo-1688561808434-886a6dd97b8c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8b25saW5lJTIwc3RvcmV8ZW58MHx8MHx8fDA%3D",
+      url: "https://www.mesh.trade/services/mesh-marketplace/",
+    },
+  ];
 
   const testimonials = [
     {
       name: "Sarah Johnson",
       business: "Fashion Boutique Owner",
-      text: "Mustapha Studio transformed our Shopify store. Sales increased by 127% in the first month. The design is stunning and converts like crazy.",
-      rating: 5,
+      text: "Mustapha Studio transformed our Shopify store. The design feels premium, the store is easier to shop, and customers understand our products faster.",
     },
     {
       name: "Michael Chen",
       business: "Tech Startup Founder",
-      text: "They built our MVP in just 2 weeks using Bubble. The quality exceeded expectations and we launched ahead of schedule.",
-      rating: 5,
+      text: "They built our Bubble MVP quickly without making it feel like a rough prototype. The dashboard was clear enough for real user testing.",
     },
     {
       name: "Emma Williams",
       business: "Life Coach",
-      text: "My Wix website now generates 50+ qualified leads monthly. The design perfectly reflects my brand and converts visitors effortlessly.",
-      rating: 5,
-    },
-    {
-      name: "David Martinez",
-      business: "Creative Director",
-      text: "Our Squarespace portfolio site wins awards. Mustapha Studio's design sense is exceptional and our client inquiries tripled.",
-      rating: 5,
+      text: "My Wix website finally explains what I do clearly. The new layout makes inquiries feel natural instead of forced.",
     },
   ];
 
   const benefits = [
     {
-      icon: <Zap className="w-6 h-6" />,
+      icon: <Zap className="h-6 w-6" />,
       title: "Fast Delivery",
-      description: "Most projects delivered in 48-72 hours",
+      description: "Focused builds that move quickly without looking rushed.",
     },
     {
-      icon: <TrendingUp className="w-6 h-6" />,
-      title: "Conversion Focused",
-      description: "Designed to increase sales and grow revenue",
+      icon: <BarChart3 className="h-6 w-6" />,
+      title: "Conversion Focus",
+      description: "Page structure, CTAs, and content hierarchy designed around action.",
     },
     {
-      icon: <Users className="w-6 h-6" />,
-      title: "Modern UI/UX",
-      description: "Premium designs that build trust and credibility",
+      icon: <ShieldCheck className="h-6 w-6" />,
+      title: "Trust-First Design",
+      description: "Polished visuals and proof points that help buyers feel confident.",
     },
     {
-      icon: <Smartphone className="w-6 h-6" />,
+      icon: <Smartphone className="h-6 w-6" />,
       title: "Mobile Optimized",
-      description: "Perfect on every device and screen size",
+      description: "Layouts tested for small screens, taps, readability, and flow.",
     },
   ];
 
   return (
-    <div className="pt-20">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-  {/* Background Image */}
-  <div className="absolute inset-0">
-    <img
-      src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=1600&h=900&fit=crop"
-      alt="Website design"
-      className="w-full h-full object-cover"
-    />
-    <div className="absolute inset-0 bg-black/60"></div>
-  </div>
-
-  {/* Content */}
-  <div className="relative z-10 max-w-5xl mx-auto px-6 text-center text-white">
-    <motion.h1
-      className="text-5xl lg:text-7xl font-bold leading-tight mb-6"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7 }}
-    >
-      We Build Websites That Bring You Clients & Sales
-    </motion.h1>
-
-    <motion.p
-      className="text-xl text-gray-200 mb-10 max-w-2xl mx-auto"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay: 0.2 }}
-    >
-      Shopify, Wix, Squarespace & Web Apps designed to convert visitors into paying customers.
-    </motion.p>
-
-    <motion.div
-      className="flex flex-col sm:flex-row gap-4 justify-center"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay: 0.3 }}
-    >
-      <motion.a
-        href="#contact"
-        className="px-8 py-4 bg-blue-600 text-white rounded-full font-semibold text-lg inline-flex items-center justify-center gap-2 hover:bg-blue-700 transition"
-        whileHover={{ scale: 1.05 }}
-      >
-        Get a Free Quote
-        <ArrowRight className="w-5 h-5" />
-      </motion.a>
-
-      <motion.a
-        href={createWhatsAppLink("Hi, I want a website for my business.")}
-        target="_blank"
-        className="px-8 py-4 bg-white text-gray-900 rounded-full font-semibold text-lg border border-white inline-flex items-center justify-center hover:bg-gray-100 transition"
-      >
-        Chat on WhatsApp
-      </motion.a>
-    </motion.div>
-  </div>
-</section>
-
-      {/* Services Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <div className="pt-0">
+      <section data-header-theme="dark" className="relative isolate min-h-[96vh] overflow-hidden bg-slate-950">
+        <img
+          src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=1800&h=1200&fit=crop"
+          alt=""
+          className="absolute inset-0 z-0 h-full w-full object-cover opacity-[0.18] mix-blend-luminosity"
+        />
+        <HeroExperience
+          palette={["#22d3ee", "#f59e0b", "#10b981"]}
+          labels={["Discover the signal", "Design the trust layer", "Launch the growth engine"]}
+          mode="studio"
+          className="z-[1]"
+        />
+        <div className="absolute inset-0 z-[2] bg-[linear-gradient(90deg,rgba(2,6,23,.92)_0%,rgba(15,23,42,.76)_48%,rgba(15,23,42,.18)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 z-[3] h-48 bg-gradient-to-t from-slate-950 to-transparent" />
+        <div className="relative z-10 mx-auto grid min-h-[96vh] max-w-7xl items-end gap-10 px-6 pb-10 pt-36 lg:grid-cols-[1fr_0.72fr] lg:px-8">
           <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, y: 26 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-4xl text-white"
           >
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              Our Services
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Professional website design and development across all major platforms
+            <span className="inline-flex border border-white/20 bg-white/10 px-3 py-1 text-sm font-semibold text-cyan-100 backdrop-blur">
+              Shopify, Wix, Squarespace & Bubble
+            </span>
+            <h1 className="hero-title mt-6 text-4xl leading-[1.02] tracking-normal sm:text-5xl lg:text-7xl">
+              Websites that make your business easier to trust, choose, and buy from.
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-200 sm:text-xl">
+              Mustapha Studio designs websites, stores, and web apps with the clarity, polish, and conversion flow your customers expect.
             </p>
+            <ContactActions
+              message="Hi, I want a website for my business. Can we discuss?"
+              subject="Website project inquiry"
+              label="Get a Free Quote"
+              variant="ghost"
+              className="mt-8"
+            />
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {services.map((service, index) => (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.75, delay: 0.18 }}
+            className="hidden border border-white/15 bg-white/[0.06] p-5 text-white shadow-2xl shadow-slate-950/30 backdrop-blur-xl lg:block"
+          >
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-cyan-200">
+              Studio Story
+            </p>
+            <div className="mt-5 space-y-3">
+              {[
+                "Map the audience decision path",
+                "Design the trust and conversion system",
+                "Ship a site that feels alive, premium, and useful",
+              ].map((item, index) => (
+                <div key={item} className="grid grid-cols-[auto_1fr] gap-4 border border-white/10 bg-white/[0.04] p-4">
+                  <span className="text-sm font-bold text-white/50">0{index + 1}</span>
+                  <span className="font-semibold text-white">{item}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          <div className="grid border border-white/15 bg-white/10 text-white backdrop-blur-md md:grid-cols-3 lg:col-span-2">
+            {["Fast launch timelines", "Platform-specific expertise", "Conversion-led UX"].map((item) => (
+              <div
+                key={item}
+                className="flex items-center gap-3 border-b border-white/15 px-5 py-4 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0"
               >
-                <Link to={service.href}>
-                  <motion.div
-                    className="p-8 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-100 hover:border-blue-200 transition-all h-full"
-                    whileHover={{ y: -8, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}
-                  >
-                   <div className="mb-4">
-  <img
-    src={service.icon}
-    alt={service.title}
-    className="w-12 h-12 object-contain"
-  />
-</div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                      {service.title}
-                    </h3>
-                    <p className="text-gray-600 mb-6">{service.description}</p>
-                    <div className="flex items-center gap-2 text-blue-600 font-semibold">
-                      Learn More
-                      <ArrowRight className="w-4 h-4" />
-                    </div>
-                  </motion.div>
-                </Link>
-              </motion.div>
+                <CheckCircle className="h-5 w-5 text-cyan-300" />
+                <span className="text-sm font-semibold">{item}</span>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Portfolio Section */}
-      <section id="portfolio" className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              Portfolio
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Real results from real businesses we've helped grow
+      <section data-header-theme="light" className="bg-white py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <FadeIn className="mx-auto max-w-3xl text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-cyan-700">
+              Services
             </p>
-          </motion.div>
+            <h2 className="mt-3 text-3xl font-bold leading-tight text-slate-950 sm:text-5xl">
+              Choose the build that matches your next move
+            </h2>
+            <p className="mt-4 text-lg leading-8 text-slate-600">
+              Every page has a job: explain the offer, build confidence, and move visitors toward the next step.
+            </p>
+          </FadeIn>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-           {portfolio.map((project, index) => (
-  <a href={project.url} target="_blank" rel="noopener noreferrer">
-    <motion.div
-      key={project.title}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="group cursor-pointer"
-    >
-                <motion.div
-                  className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow"
-                  whileHover={{ y: -8 }}
+          <div className="mt-14 grid gap-5 md:grid-cols-2">
+            {services.map((service, index) => (
+              <FadeIn key={service.title} delay={index * 0.05}>
+                <Link
+                  to={service.href}
+                  className="group block h-full border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/80"
                 >
-                  <div className="relative overflow-hidden aspect-[4/3]">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute top-4 right-4 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-sm font-semibold text-blue-600">
-                      {project.stats}
-                    </div>
+                  <div className={`mb-5 inline-flex h-12 w-12 items-center justify-center border ${service.tone}`}>
+                    {service.icon}
                   </div>
-                  <div className="p-6">
-                    <div className="text-sm text-blue-600 font-semibold mb-2">
-                      {project.category}
+                  <div className="flex items-start justify-between gap-6">
+                    <div>
+                      <h3 className="text-2xl font-bold text-slate-950">{service.title}</h3>
+                      <p className="mt-3 leading-7 text-slate-600">{service.description}</p>
                     </div>
-                    <h3 className="text-xl font-bold text-gray-900">
-                      {project.title}
-                    </h3>
+                    <ArrowRight className="mt-2 h-5 w-5 flex-none text-slate-400 transition group-hover:translate-x-1 group-hover:text-slate-950" />
                   </div>
-                </motion.div>
-              </motion.div>
+                </Link>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section data-header-theme="light" id="portfolio" className="bg-slate-50 py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <FadeIn className="max-w-3xl">
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-cyan-700">
+              Portfolio
+            </p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight text-slate-950 sm:text-5xl">
+              Real work across stores, service sites, and web apps
+            </h2>
+            <p className="mt-4 text-lg leading-8 text-slate-600">
+              A stronger website is not only prettier. It is easier to scan, easier to trust, and easier to act on.
+            </p>
+          </FadeIn>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {portfolio.map((project, index) => (
+              <a
+                key={project.title}
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block"
+              >
+                <FadeIn delay={index * 0.05}>
+                  <article className="overflow-hidden border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/80">
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                      <span className="absolute left-4 top-4 bg-white/90 px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-slate-700 backdrop-blur">
+                        {project.category}
+                      </span>
+                    </div>
+                    <div className="flex items-start justify-between gap-4 p-5">
+                      <h3 className="text-lg font-bold text-slate-950">{project.title}</h3>
+                      <ExternalLink className="mt-1 h-4 w-4 flex-none text-cyan-700" />
+                    </div>
+                  </article>
+                </FadeIn>
               </a>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              What Our Clients Say
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Trusted by businesses worldwide to deliver exceptional results
+      <section data-header-theme="light" id="testimonials" className="bg-white py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <FadeIn className="mx-auto max-w-3xl text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-cyan-700">
+              Client Notes
             </p>
-          </motion.div>
+            <h2 className="mt-3 text-3xl font-bold leading-tight text-slate-950 sm:text-5xl">
+              Clearer websites create calmer buyers
+            </h2>
+          </FadeIn>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="mt-14 grid gap-5 lg:grid-cols-3">
             {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="p-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl border border-blue-100"
-              >
-                <div className="flex gap-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-gray-700 mb-6 text-lg">"{testimonial.text}"</p>
-                <div>
-                  <div className="font-bold text-gray-900">{testimonial.name}</div>
-                  <div className="text-gray-600 text-sm">{testimonial.business}</div>
-                </div>
-              </motion.div>
+              <FadeIn key={testimonial.name} delay={index * 0.06}>
+                <figure className="h-full border border-slate-200 bg-white p-6 shadow-sm">
+                  <div className="flex gap-1 text-amber-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 fill-current" />
+                    ))}
+                  </div>
+                  <blockquote className="mt-5 leading-8 text-slate-700">
+                    "{testimonial.text}"
+                  </blockquote>
+                  <figcaption className="mt-6 border-t border-slate-200 pt-5">
+                    <div className="font-bold text-slate-950">{testimonial.name}</div>
+                    <div className="mt-1 text-sm text-slate-500">{testimonial.business}</div>
+                  </figcaption>
+                </figure>
+              </FadeIn>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us Section */}
-      <section className="py-24 bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-              Why Choose Mustapha Studio
-            </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              We deliver results that matter to your business
+      <section data-header-theme="dark" className="bg-slate-950 py-20 text-white sm:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <FadeIn className="mx-auto max-w-3xl text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-cyan-300">
+              Why Mustapha Studio
             </p>
-          </motion.div>
+            <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-5xl">
+              Designed for the way people actually browse
+            </h2>
+            <p className="mt-4 text-lg leading-8 text-slate-300">
+              The experience is planned around attention, trust, and the small moments where visitors decide whether to stay.
+            </p>
+          </FadeIn>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {benefits.map((benefit, index) => (
-              <motion.div
-                key={benefit.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center"
-              >
-                <motion.div
-                  className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-4"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                >
-                  {benefit.icon}
-                </motion.div>
-                <h3 className="text-xl font-bold mb-2">{benefit.title}</h3>
-                <p className="text-gray-400">{benefit.description}</p>
-              </motion.div>
+              <FadeIn key={benefit.title} delay={index * 0.05}>
+                <div className="h-full border border-white/10 bg-white/5 p-6">
+                  <div className="mb-5 inline-flex h-11 w-11 items-center justify-center bg-cyan-400 text-slate-950">
+                    {benefit.icon}
+                  </div>
+                  <h3 className="text-lg font-bold">{benefit.title}</h3>
+                  <p className="mt-3 leading-7 text-slate-300">{benefit.description}</p>
+                </div>
+              </FadeIn>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Final CTA Section */}
-      <section id="contact" className="py-24 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-4xl lg:text-6xl font-bold mb-6">
-              Ready to Grow Your Business?
-            </h2>
-            <p className="text-xl mb-12 text-blue-100 max-w-2xl mx-auto">
-              Get a free quote today and discover how we can transform your online presence
+      <section data-header-theme="light" id="contact" className="bg-white py-20 sm:py-24">
+        <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+          <FadeIn>
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-cyan-700">
+              Start Here
             </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <motion.a
-  href={createWhatsAppLink("Hi, I’d like a free quote for a website project.")}
-  target="_blank"
-  className="px-8 py-4 bg-white text-blue-600 rounded-full font-semibold text-lg inline-flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors"
->
-  WhatsApp Contact
-</motion.a>
-              <motion.a
-                href="#quote-form"
-                className="px-8 py-4 bg-transparent text-white rounded-full font-semibold text-lg border-2 border-white inline-flex items-center justify-center gap-2 hover:bg-white/10 transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Get a Quote
-              </motion.a>
-            </div>
-
-            {/* Contact Form */}
-            <motion.div
-              id="quote-form"
-              className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 max-w-2xl mx-auto border border-white/20"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Your Name"
-                    className="px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:border-white/40"
-                    value={formData.name}
-                    onChange={handleChange}
-                  />
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Your Email"
-                    className="px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:border-white/40"
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
+            <h2 className="mt-3 text-3xl font-bold leading-tight text-slate-950 sm:text-5xl">
+              Tell us what you want the site to do.
+            </h2>
+            <p className="mt-5 text-lg leading-8 text-slate-600">
+              Share the platform, goal, timeline, and any current website link. You can send the brief by WhatsApp or email, whichever is easier.
+            </p>
+            <div className="mt-8 space-y-4">
+              {["Free first discussion", "Clear package recommendation", "Fast next-step plan"].map((item) => (
+                <div key={item} className="flex items-center gap-3 text-slate-700">
+                  <CheckCircle className="h-5 w-5 text-cyan-700" />
+                  <span className="font-semibold">{item}</span>
                 </div>
-                <select
-                  name="service"
-                  className="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-white/40"
-                  value={formData.service}
+              ))}
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.1}>
+            <form onSubmit={handleSubmit} className="border border-slate-200 bg-slate-50 p-5 shadow-sm sm:p-8">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your name"
+                  aria-label="Your name"
+                  required
+                  className="min-h-12 border border-slate-200 bg-white px-4 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950"
+                  value={formData.name}
                   onChange={handleChange}
-                >
-                  <option value="" className="text-gray-900">Select Service</option>
-                  <option value="shopify" className="text-gray-900">Shopify Design</option>
-                  <option value="wix" className="text-gray-900">Wix Design</option>
-                  <option value="squarespace" className="text-gray-900">Squarespace Design</option>
-                  <option value="bubble" className="text-gray-900">Bubble Web App</option>
-                </select>
-               <textarea
-  name="message"
-  placeholder="Tell us about your project"
-  rows={4}
-  className="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:border-white/40 resize-none"
-  value={formData.message}
-  onChange={handleChange}
-></textarea>
-                <motion.button
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email address"
+                  aria-label="Email address"
+                  required
+                  className="min-h-12 border border-slate-200 bg-white px-4 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </div>
+              <select
+                name="service"
+                aria-label="Select service"
+                required
+                className="mt-4 min-h-12 w-full border border-slate-200 bg-white px-4 text-slate-950 outline-none transition focus:border-slate-950"
+                value={formData.service}
+                onChange={handleChange}
+              >
+                <option value="">Select service</option>
+                <option value="Shopify Design">Shopify Design</option>
+                <option value="Wix Design">Wix Design</option>
+                <option value="Squarespace Design">Squarespace Design</option>
+                <option value="Bubble Web App">Bubble Web App</option>
+              </select>
+              <textarea
+                name="message"
+                placeholder="Tell us about the project"
+                aria-label="Tell us about the project"
+                rows={5}
+                required
+                className="mt-4 w-full resize-none border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950"
+                value={formData.message}
+                onChange={handleChange}
+              />
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <button
                   type="submit"
-                  className="w-full px-8 py-4 bg-white text-blue-600 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 bg-slate-950 px-6 py-3 font-semibold text-white transition hover:bg-slate-800"
                 >
-                  Send Message
-                </motion.button>
-              </form>
-            </motion.div>
-          </motion.div>
+                  Send on WhatsApp
+                  <ArrowRight className="h-5 w-5" />
+                </button>
+                <a
+                  href={createEmailLink("Website project inquiry", formMessage)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-12 items-center justify-center gap-2 border border-slate-200 bg-white px-6 py-3 font-semibold text-slate-950 transition hover:border-slate-950"
+                >
+                  Send by Email
+                </a>
+              </div>
+            </form>
+          </FadeIn>
         </div>
       </section>
     </div>

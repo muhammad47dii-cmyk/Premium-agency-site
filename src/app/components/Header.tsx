@@ -1,20 +1,51 @@
 import { Link, useLocation } from "react-router";
 import { motion } from "motion/react";
-import { Menu, X } from "lucide-react";
+import { ArrowRight, Mail, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { createEmailLink } from "./ContactActions";
+import logo from "../../assets/mustapha-studio-logo.png";
 
 export function Header() {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [overDarkSection, setOverDarkSection] = useState(true);
 
-useEffect(() => {
-  if (location.hash === "#contact") {
-    const el = document.getElementById("contact");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+  useEffect(() => {
+    setMobileMenuOpen(false);
+
+    if (location.hash) {
+      window.setTimeout(() => {
+        const el = document.getElementById(location.hash.replace("#", ""));
+        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
     }
-  }
-}, [location]);
+  }, [location]);
+
+  useEffect(() => {
+    const updateHeaderTheme = () => {
+      const probeY = 96;
+      const themedSections = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-header-theme]"),
+      );
+      const currentSection = themedSections.find((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= probeY && rect.bottom >= probeY;
+      });
+
+      setOverDarkSection(currentSection?.dataset.headerTheme !== "light");
+    };
+
+    const scheduleUpdate = () => window.requestAnimationFrame(updateHeaderTheme);
+
+    scheduleUpdate();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", updateHeaderTheme);
+
+    return () => {
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", updateHeaderTheme);
+    };
+  }, [location.pathname]);
 
   const navigation = [
     { name: "Home", href: "/" },
@@ -25,77 +56,137 @@ useEffect(() => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-100">
-      <nav className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          <Link to="/" className="flex items-center">
-  <motion.img
-  src="https://www.image2url.com/r2/default/files/1776553011830-12dc8b20-b8e2-4741-993f-14bd3c86cd2f.jpeg"
-  alt="Mustapha Studio Logo"
-  className="h-25 md:h-10 w-auto object-contain"
-/>
+    <header className="fixed inset-x-0 top-0 z-50 px-3 py-3 sm:px-6">
+      <nav
+        className={`mx-auto max-w-[1640px] rounded-[22px] border px-4 shadow-2xl backdrop-blur-2xl transition-all duration-500 sm:px-6 ${
+          overDarkSection
+            ? "border-white/12 bg-slate-950/72 shadow-black/35 supports-[backdrop-filter]:bg-slate-950/58"
+            : "border-white/45 bg-white/68 shadow-slate-950/10 supports-[backdrop-filter]:bg-white/56"
+        }`}
+      >
+        <div className="flex h-[72px] items-center justify-between gap-4">
+          <Link to="/" className="flex items-center gap-3" aria-label="Mustapha Studio home">
+            <motion.img
+              src={logo}
+              alt="Mustapha Studio"
+              decoding="async"
+              className={`h-12 w-auto object-contain transition duration-500 sm:h-14 ${
+                overDarkSection
+                  ? "brightness-0 invert saturate-0 contrast-200 opacity-95 drop-shadow-[0_0_18px_rgba(255,255,255,.34)]"
+                  : ""
+              }`}
+              whileHover={{ scale: 1.03 }}
+              transition={{ type: "spring", stiffness: 380, damping: 22 }}
+            />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div
+            className={`hidden items-center gap-1 rounded-2xl border p-1 shadow-inner transition duration-500 md:flex ${
+              overDarkSection
+                ? "border-white/10 bg-white/7 shadow-white/5"
+                : "border-white/45 bg-white/35 shadow-white/40"
+            }`}
+          >
             {navigation.map((item) => (
               <Link
                 key={item.href}
                 to={item.href}
-                className={`text-sm font-medium transition-colors ${
+                className={`rounded-xl px-4 py-2.5 text-sm font-bold transition ${
                   location.pathname === item.href
-                    ? "text-blue-600"
-                    : "text-gray-600 hover:text-gray-900"
+                    ? overDarkSection
+                      ? "bg-white text-slate-950 shadow-xl shadow-white/12"
+                      : "bg-slate-950 text-white shadow-xl shadow-slate-950/20"
+                    : overDarkSection
+                      ? "text-white/72 hover:bg-white/10 hover:text-white"
+                      : "text-slate-600 hover:bg-white/70 hover:text-slate-950"
                 }`}
               >
                 {item.name}
               </Link>
             ))}
             <Link
-  to="/#contact"
-  className="px-6 py-2.5 bg-blue-600 text-white rounded-full text-sm font-medium"
->
-  Get a Quote
-</Link>
+              to="/#contact"
+              className={`ml-3 inline-flex min-h-12 items-center gap-2 rounded-2xl px-5 py-3 text-sm font-bold shadow-xl transition hover:-translate-y-0.5 ${
+                overDarkSection
+                  ? "bg-white text-slate-950 shadow-white/12 hover:bg-cyan-100"
+                  : "bg-slate-950 text-white shadow-slate-950/25 hover:bg-slate-800"
+              }`}
+            >
+              Get a Quote
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a
+              href={createEmailLink(
+                "Website project inquiry",
+                "Hi Mustapha Studio, I want to discuss a website project.",
+              )}
+              className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl border shadow-inner transition hover:-translate-y-0.5 ${
+                overDarkSection
+                  ? "border-white/14 bg-white/10 text-white shadow-white/5 hover:bg-white hover:text-slate-950"
+                  : "border-white/60 bg-white/45 text-slate-700 shadow-white/40 hover:bg-white hover:text-slate-950"
+              }`}
+              aria-label="Email Mustapha Studio"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Mail className="h-4 w-4" />
+            </a>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2"
+            className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl border md:hidden ${
+              overDarkSection
+                ? "border-white/15 bg-white/10 text-white"
+                : "border-white/60 bg-white/45 text-slate-950"
+            }`}
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            className="md:hidden py-4 border-t border-gray-100"
+            className={`border-t py-4 md:hidden ${
+              overDarkSection ? "border-white/10" : "border-white/45"
+            }`}
           >
             {navigation.map((item) => (
               <Link
                 key={item.href}
                 to={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`block px-4 py-3 text-sm font-medium ${
+                className={`block px-4 py-3 text-base font-semibold ${
                   location.pathname === item.href
-                    ? "text-blue-600 bg-blue-50"
-                    : "text-gray-600"
+                    ? "bg-slate-950 text-white"
+                    : "text-slate-700"
                 }`}
               >
                 {item.name}
               </Link>
             ))}
-  <Link
-  to="/#contact"
-  onClick={() => setMobileMenuOpen(false)}
-  className="block mx-4 mt-4 px-6 py-2.5 bg-blue-600 text-white rounded-full text-sm font-medium text-center"
->
-  Get a Quote
-</Link>
+            <Link
+              to="/#contact"
+              className="mx-4 mt-4 flex min-h-12 items-center justify-center gap-2 bg-slate-950 px-6 py-3 text-center text-sm font-semibold text-white"
+            >
+              Get a Quote
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a
+              href={createEmailLink(
+                "Website project inquiry",
+                "Hi Mustapha Studio, I want to discuss a website project.",
+              )}
+              className="mx-4 mt-3 flex min-h-12 items-center justify-center gap-2 border border-slate-200 px-6 py-3 text-center text-sm font-semibold text-slate-950"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Mail className="h-4 w-4" />
+              Email Us
+            </a>
           </motion.div>
         )}
       </nav>
