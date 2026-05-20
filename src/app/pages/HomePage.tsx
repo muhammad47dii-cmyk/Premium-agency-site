@@ -428,7 +428,7 @@ ${formData.message}`;
         </div>
       </section>
 
-      <section data-header-theme="light" id="contact" className="bg-white py-20 sm:py-24">
+      <section data-header-theme="light" id="contact" className="contact-section bg-white py-20 sm:py-24">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
           <FadeIn>
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-cyan-700">

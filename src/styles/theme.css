@@ -383,6 +383,25 @@ main form:hover {
   transform: translateY(-8px) rotateX(2deg) rotateY(-1deg);
 }
 
+.contact-section,
+.contact-section > div,
+.contact-section form,
+.contact-section form *,
+.contact-section [style*="filter"] {
+  filter: none !important;
+}
+
+.contact-section > div,
+.contact-section form {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.contact-section form:hover {
+  transform: translateY(-4px) !important;
+}
+
 @supports (animation-timeline: view()) {
   main section:nth-child(even) > div {
     animation-range: entry 0% cover 42%;

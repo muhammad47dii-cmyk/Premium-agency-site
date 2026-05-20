@@ -21,6 +21,24 @@ export function RootLayout() {
           mobile: { position: 'br', xOffset: 18, yOffset: 18 }
         }
       };
+      Tawk_API.onLoad = function(){
+        var mobileQuery = window.matchMedia('(max-width: 767px)');
+        var syncTawkVisibility = function(event){
+          if (event.matches) {
+            Tawk_API.hideWidget && Tawk_API.hideWidget();
+          } else {
+            Tawk_API.showWidget && Tawk_API.showWidget();
+          }
+        };
+
+        syncTawkVisibility(mobileQuery);
+
+        if (mobileQuery.addEventListener) {
+          mobileQuery.addEventListener('change', syncTawkVisibility);
+        } else if (mobileQuery.addListener) {
+          mobileQuery.addListener(syncTawkVisibility);
+        }
+      };
       (function(){
         var s1=document.createElement("script"),
         s0=document.getElementsByTagName("script")[0];

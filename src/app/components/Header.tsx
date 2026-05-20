@@ -151,7 +151,7 @@ export function Header() {
           <motion.div
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`border-t py-4 md:hidden ${
+            className={`rounded-b-[20px] border-t px-3 py-4 md:hidden ${
               overDarkSection ? "border-white/10" : "border-white/45"
             }`}
           >
@@ -159,10 +159,14 @@ export function Header() {
               <Link
                 key={item.href}
                 to={item.href}
-                className={`block px-4 py-3 text-base font-semibold ${
+                className={`mb-2 block rounded-2xl px-5 py-4 text-base font-bold transition ${
                   location.pathname === item.href
-                    ? "bg-slate-950 text-white"
-                    : "text-slate-700"
+                    ? overDarkSection
+                      ? "bg-white text-slate-950 shadow-xl shadow-white/10"
+                      : "bg-slate-950 text-white shadow-xl shadow-slate-950/15"
+                    : overDarkSection
+                      ? "text-white/82 hover:bg-white/10 hover:text-white"
+                      : "text-slate-700 hover:bg-white/70 hover:text-slate-950"
                 }`}
               >
                 {item.name}
@@ -170,7 +174,11 @@ export function Header() {
             ))}
             <Link
               to="/#contact"
-              className="mx-4 mt-4 flex min-h-12 items-center justify-center gap-2 bg-slate-950 px-6 py-3 text-center text-sm font-semibold text-white"
+              className={`mt-5 flex min-h-14 items-center justify-center gap-2 rounded-2xl px-6 py-3 text-center text-sm font-bold shadow-xl transition ${
+                overDarkSection
+                  ? "bg-white text-slate-950 shadow-white/10"
+                  : "bg-slate-950 text-white shadow-slate-950/15"
+              }`}
             >
               Get a Quote
               <ArrowRight className="h-4 w-4" />
@@ -180,7 +188,11 @@ export function Header() {
                 "Website project inquiry",
                 "Hi Mustapha Studio, I want to discuss a website project.",
               )}
-              className="mx-4 mt-3 flex min-h-12 items-center justify-center gap-2 border border-slate-200 px-6 py-3 text-center text-sm font-semibold text-slate-950"
+              className={`mt-3 flex min-h-14 items-center justify-center gap-2 rounded-2xl border px-6 py-3 text-center text-sm font-bold transition ${
+                overDarkSection
+                  ? "border-white/35 bg-white/8 text-white hover:bg-white hover:text-slate-950"
+                  : "border-slate-200 bg-white/70 text-slate-950 hover:border-slate-950"
+              }`}
               target="_blank"
               rel="noopener noreferrer"
             >
