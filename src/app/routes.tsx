@@ -9,6 +9,9 @@ const SquarespacePage = lazy(() =>
   import("./pages/SquarespacePage").then((module) => ({ default: module.SquarespacePage })),
 );
 const BubblePage = lazy(() => import("./pages/BubblePage").then((module) => ({ default: module.BubblePage })));
+const VideoEditingPage = lazy(() =>
+  import("./pages/VideoEditingPage").then((module) => ({ default: module.VideoEditingPage })),
+);
 
 function PageLoader() {
   return (
@@ -34,6 +37,7 @@ export const router = createBrowserRouter([
       { path: "wix", element: lazyPage(<WixPage />) },
       { path: "squarespace", element: lazyPage(<SquarespacePage />) },
       { path: "bubble", element: lazyPage(<BubblePage />) },
+      { path: "video-editing", element: lazyPage(<VideoEditingPage />) },
     ],
   },
 ]);

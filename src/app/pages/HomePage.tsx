@@ -6,6 +6,7 @@ import {
   BarChart3,
   CheckCircle,
   ExternalLink,
+  Film,
   Layers,
   ShieldCheck,
   Smartphone,
@@ -15,7 +16,12 @@ import {
   Users,
   Zap,
 } from "lucide-react";
-import { ContactActions, createEmailLink, createWhatsAppLink } from "../components/ContactActions";
+import {
+  ContactActions,
+  createEmailLink,
+  createFacebookLink,
+  createWhatsAppLink,
+} from "../components/ContactActions";
 import { HeroExperience } from "../components/HeroExperience";
 
 type FormState = {
@@ -116,6 +122,13 @@ ${formData.message}`;
       icon: <Layers className="h-6 w-6" />,
       href: "/bubble",
       tone: "bg-indigo-50 text-indigo-700 border-indigo-100",
+    },
+    {
+      title: "Video Editing",
+      description: "Short-form ads, social clips, brand stories, captions, and platform-ready edits.",
+      icon: <Film className="h-6 w-6" />,
+      href: "/video-editing",
+      tone: "bg-rose-50 text-rose-700 border-rose-100",
     },
   ];
 
@@ -223,7 +236,7 @@ ${formData.message}`;
             className="max-w-4xl text-white"
           >
             <span className="inline-flex border border-white/20 bg-white/10 px-3 py-1 text-sm font-semibold text-cyan-100 backdrop-blur">
-              Shopify, Wix, Squarespace & Bubble
+              Shopify, Wix, Squarespace, Bubble & Video
             </span>
             <h1 className="hero-title mt-6 text-4xl leading-[1.02] tracking-normal sm:text-5xl lg:text-7xl">
               Websites that make your business easier to trust, choose, and buy from.
@@ -487,6 +500,7 @@ ${formData.message}`;
                 <option value="Wix Design">Wix Design</option>
                 <option value="Squarespace Design">Squarespace Design</option>
                 <option value="Bubble Web App">Bubble Web App</option>
+                <option value="Video Editing">Video Editing</option>
               </select>
               <textarea
                 name="message"
@@ -498,7 +512,7 @@ ${formData.message}`;
                 value={formData.message}
                 onChange={handleChange}
               />
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
                 <button
                   type="submit"
                   className="inline-flex min-h-12 items-center justify-center gap-2 bg-slate-950 px-6 py-3 font-semibold text-white transition hover:bg-slate-800"
@@ -513,6 +527,14 @@ ${formData.message}`;
                   className="inline-flex min-h-12 items-center justify-center gap-2 border border-slate-200 bg-white px-6 py-3 font-semibold text-slate-950 transition hover:border-slate-950"
                 >
                   Send by Email
+                </a>
+                <a
+                  href={createFacebookLink()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-12 items-center justify-center gap-2 border border-[#1877f2]/20 bg-[#1877f2] px-6 py-3 font-semibold text-white transition hover:bg-[#0f67dc]"
+                >
+                  Facebook
                 </a>
               </div>
             </form>

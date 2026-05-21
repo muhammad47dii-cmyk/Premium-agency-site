@@ -53,6 +53,7 @@ export function Header() {
     { name: "Wix", href: "/wix" },
     { name: "Squarespace", href: "/squarespace" },
     { name: "Bubble", href: "/bubble" },
+    { name: "Video", href: "/video-editing" },
   ];
 
   return (

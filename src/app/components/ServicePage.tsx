@@ -4,7 +4,7 @@ import { ArrowRight, CheckCircle, ExternalLink } from "lucide-react";
 import { ContactActions } from "./ContactActions";
 import { HeroExperience } from "./HeroExperience";
 
-type AccentName = "shopify" | "wix" | "squarespace" | "bubble";
+type AccentName = "shopify" | "wix" | "squarespace" | "bubble" | "video";
 
 const accents: Record<
   AccentName,
@@ -79,6 +79,20 @@ const accents: Record<
     mode: "product",
     story: ["Map the workflow", "Build the product logic", "Launch a usable MVP"],
   },
+  video: {
+    badge: "bg-rose-50 text-rose-700 border-rose-200",
+    icon: "bg-rose-600 text-white",
+    primaryButton: "bg-rose-500 text-white hover:bg-rose-400",
+    subtleButton: "bg-white/10 text-white border-white/25 hover:bg-white/15",
+    featureCard: "border-rose-100 bg-rose-50/40",
+    pricingPopular: "bg-gradient-to-br from-rose-600 to-violet-600 text-white",
+    text: "text-rose-700",
+    check: "text-rose-600",
+    cta: "bg-[linear-gradient(135deg,#881337_0%,#6d28d9_58%,#111827_100%)]",
+    palette: ["#fb7185", "#a78bfa", "#22d3ee"],
+    mode: "studio",
+    story: ["Shape the hook", "Cut the story", "Deliver platform-ready videos"],
+  },
 };
 
 type Feature = {
@@ -103,6 +117,14 @@ type Showcase = {
   url?: string;
 };
 
+type VideoPortfolio = {
+  title: string;
+  description: string;
+  video: string;
+  sourceUrl?: string;
+  format: string;
+};
+
 type ServicePageProps = {
   accent: AccentName;
   eyebrow: string;
@@ -118,6 +140,7 @@ type ServicePageProps = {
   showcaseTitle: string;
   showcaseSubtitle: string;
   showcases: Showcase[];
+  videoPortfolio?: VideoPortfolio[];
   pricingTitle: string;
   pricingSubtitle: string;
   pricing: PricingPlan[];
@@ -162,6 +185,7 @@ export function ServicePage({
   showcaseTitle,
   showcaseSubtitle,
   showcases,
+  videoPortfolio = [],
   pricingTitle,
   pricingSubtitle,
   pricing,
@@ -346,6 +370,66 @@ export function ServicePage({
           </div>
         </div>
       </section>
+
+      {videoPortfolio.length > 0 && (
+        <section data-header-theme="dark" className="bg-slate-950 py-20 text-white sm:py-24">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <FadeIn className="max-w-3xl">
+              <p className={`text-sm font-bold uppercase tracking-[0.18em] ${tone.text}`}>
+                Video Portfolio
+              </p>
+              <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-5xl">
+                Sample edit styles and content formats
+              </h2>
+              <p className="mt-4 text-lg leading-8 text-slate-300">
+                A selection of video edits and content styles available for brands, creators, and businesses.
+              </p>
+            </FadeIn>
+
+            <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {videoPortfolio.map((item, index) => (
+                <FadeIn key={item.title} delay={index * 0.06}>
+                  <article className="group overflow-hidden border border-white/10 bg-white/[0.05] shadow-2xl shadow-black/20 backdrop-blur-xl">
+                    <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-slate-950">
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_36%,rgba(251,113,133,.20),transparent_34%),linear-gradient(135deg,rgba(15,23,42,.92),rgba(2,6,23,.98))]" />
+                      <div className="absolute inset-4 border border-white/10" />
+                      <video
+                        className="relative z-10 h-full max-h-full w-full max-w-full object-contain p-3 transition duration-700"
+                        src={item.video}
+                        muted
+                        loop
+                        autoPlay
+                        playsInline
+                        preload="metadata"
+                      />
+                      <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-slate-950 via-slate-950/55 to-transparent p-5">
+                        <span className="inline-flex border border-white/20 bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-cyan-100 backdrop-blur">
+                          {item.format}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="p-5">
+                      <h3 className="text-xl font-bold text-white">{item.title}</h3>
+                      <p className="mt-3 leading-7 text-slate-300">{item.description}</p>
+                      {item.sourceUrl && (
+                        <a
+                          href={item.sourceUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-cyan-200 transition hover:text-white"
+                        >
+                          View source clip
+                          <ExternalLink className="h-4 w-4" />
+                        </a>
+                      )}
+                    </div>
+                  </article>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section data-header-theme="light" id="pricing" className="bg-white py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
